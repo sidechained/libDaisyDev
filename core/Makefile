@@ -116,6 +116,7 @@ C_DEFS +=  \
 -DARM_MATH_CM7 \
 -DUSE_FULL_LL_DRIVER
 
+
 # for debugging bootloaded applications
 ifdef DEBUG
 C_DEFS += -DDEBUG
@@ -170,6 +171,9 @@ ifeq ($(USE_FATFS),1)
 C_SOURCES += $(FATFS_SOURCES)
 endif
 C_INCLUDES += -I$(FATFS_DIR)
+
+# File I/O Abstract Interface for FatFS:
+C_DEFS += -DFILEIO_ENABLE_FATFS_READER
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
