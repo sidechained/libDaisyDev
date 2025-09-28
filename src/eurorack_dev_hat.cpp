@@ -3,22 +3,22 @@
 
 namespace daisy
 {
-namespace patch_sm
+namespace eurorack_dev_hat
 {
     /** Const definitions */
     constexpr Pin DUMMYPIN        = Pin(PORTX, 0);
-    constexpr Pin PIN_ADC_CTRL_1  = DaisyPatchSM::C5;
-    constexpr Pin PIN_ADC_CTRL_2  = DaisyPatchSM::C4;
-    constexpr Pin PIN_ADC_CTRL_3  = DaisyPatchSM::C3;
-    constexpr Pin PIN_ADC_CTRL_4  = DaisyPatchSM::C2;
-    constexpr Pin PIN_ADC_CTRL_5  = DaisyPatchSM::C6;
-    constexpr Pin PIN_ADC_CTRL_6  = DaisyPatchSM::C7;
-    constexpr Pin PIN_ADC_CTRL_7  = DaisyPatchSM::C8;
-    constexpr Pin PIN_ADC_CTRL_8  = DaisyPatchSM::C9;
-    constexpr Pin PIN_ADC_CTRL_9  = DaisyPatchSM::A2;
-    constexpr Pin PIN_ADC_CTRL_10 = DaisyPatchSM::A3;
-    constexpr Pin PIN_ADC_CTRL_11 = DaisyPatchSM::D9;
-    constexpr Pin PIN_ADC_CTRL_12 = DaisyPatchSM::D8;
+    constexpr Pin PIN_ADC_CTRL_1  = EurorackDevHat::C5;
+    constexpr Pin PIN_ADC_CTRL_2  = EurorackDevHat::C4;
+    constexpr Pin PIN_ADC_CTRL_3  = EurorackDevHat::C3;
+    constexpr Pin PIN_ADC_CTRL_4  = EurorackDevHat::C2;
+    constexpr Pin PIN_ADC_CTRL_5  = EurorackDevHat::C6;
+    constexpr Pin PIN_ADC_CTRL_6  = EurorackDevHat::C7;
+    constexpr Pin PIN_ADC_CTRL_7  = EurorackDevHat::C8;
+    constexpr Pin PIN_ADC_CTRL_8  = EurorackDevHat::C9;
+    constexpr Pin PIN_ADC_CTRL_9  = EurorackDevHat::A2;
+    constexpr Pin PIN_ADC_CTRL_10 = EurorackDevHat::A3;
+    constexpr Pin PIN_ADC_CTRL_11 = EurorackDevHat::D9;
+    constexpr Pin PIN_ADC_CTRL_12 = EurorackDevHat::D8;
     constexpr Pin PIN_USER_LED    = Pin(PORTC, 7);
 
     /** @note This is an adapter for the new Pin mapping system in the class so that
@@ -26,101 +26,101 @@ namespace patch_sm
     */
     constexpr Pin kPinMap[4][10] =
         // Bank A
-        {{DaisyPatchSM::A1,
-          DaisyPatchSM::A2,
-          DaisyPatchSM::A3,
-          DaisyPatchSM::A4,
-          DaisyPatchSM::A5,
-          DaisyPatchSM::A6,
-          DaisyPatchSM::A7,
-          DaisyPatchSM::A8,
-          DaisyPatchSM::A9,
-          DaisyPatchSM::A10},
+        {{EurorackDevHat::A1,
+          EurorackDevHat::A2,
+          EurorackDevHat::A3,
+          EurorackDevHat::A4,
+          EurorackDevHat::A5,
+          EurorackDevHat::A6,
+          EurorackDevHat::A7,
+          EurorackDevHat::A8,
+          EurorackDevHat::A9,
+          EurorackDevHat::A10},
 
          // Bank B
-         {DaisyPatchSM::B1,
-          DaisyPatchSM::B2,
-          DaisyPatchSM::B3,
-          DaisyPatchSM::B4,
-          DaisyPatchSM::B5,
-          DaisyPatchSM::B6,
-          DaisyPatchSM::B7,
-          DaisyPatchSM::B8,
-          DaisyPatchSM::B9,
-          DaisyPatchSM::B10},
+         {EurorackDevHat::B1,
+          EurorackDevHat::B2,
+          EurorackDevHat::B3,
+          EurorackDevHat::B4,
+          EurorackDevHat::B5,
+          EurorackDevHat::B6,
+          EurorackDevHat::B7,
+          EurorackDevHat::B8,
+          EurorackDevHat::B9,
+          EurorackDevHat::B10},
 
          // Bank C
-         {DaisyPatchSM::C1,
-          DaisyPatchSM::C2,
-          DaisyPatchSM::C3,
-          DaisyPatchSM::C4,
-          DaisyPatchSM::C5,
-          DaisyPatchSM::C6,
-          DaisyPatchSM::C7,
-          DaisyPatchSM::C8,
-          DaisyPatchSM::C9,
-          DaisyPatchSM::C10},
+         {EurorackDevHat::C1,
+          EurorackDevHat::C2,
+          EurorackDevHat::C3,
+          EurorackDevHat::C4,
+          EurorackDevHat::C5,
+          EurorackDevHat::C6,
+          EurorackDevHat::C7,
+          EurorackDevHat::C8,
+          EurorackDevHat::C9,
+          EurorackDevHat::C10},
 
          // Bank D
-         {DaisyPatchSM::D1,
-          DaisyPatchSM::D2,
-          DaisyPatchSM::D3,
-          DaisyPatchSM::D4,
-          DaisyPatchSM::D5,
-          DaisyPatchSM::D6,
-          DaisyPatchSM::D7,
-          DaisyPatchSM::D8,
-          DaisyPatchSM::D9,
-          DaisyPatchSM::D10}};
+         {EurorackDevHat::D1,
+          EurorackDevHat::D2,
+          EurorackDevHat::D3,
+          EurorackDevHat::D4,
+          EurorackDevHat::D5,
+          EurorackDevHat::D6,
+          EurorackDevHat::D7,
+          EurorackDevHat::D8,
+          EurorackDevHat::D9,
+          EurorackDevHat::D10}};
 
-    constexpr Pin DaisyPatchSM::A1;
-    constexpr Pin DaisyPatchSM::A2;
-    constexpr Pin DaisyPatchSM::A3;
-    constexpr Pin DaisyPatchSM::A4;
-    constexpr Pin DaisyPatchSM::A5;
-    constexpr Pin DaisyPatchSM::A6;
-    constexpr Pin DaisyPatchSM::A7;
-    constexpr Pin DaisyPatchSM::A8;
-    constexpr Pin DaisyPatchSM::A9;
-    constexpr Pin DaisyPatchSM::A10;
+    constexpr Pin EurorackDevHat::A1;
+    constexpr Pin EurorackDevHat::A2;
+    constexpr Pin EurorackDevHat::A3;
+    constexpr Pin EurorackDevHat::A4;
+    constexpr Pin EurorackDevHat::A5;
+    constexpr Pin EurorackDevHat::A6;
+    constexpr Pin EurorackDevHat::A7;
+    constexpr Pin EurorackDevHat::A8;
+    constexpr Pin EurorackDevHat::A9;
+    constexpr Pin EurorackDevHat::A10;
 
-    constexpr Pin DaisyPatchSM::B1;
-    constexpr Pin DaisyPatchSM::B2;
-    constexpr Pin DaisyPatchSM::B3;
-    constexpr Pin DaisyPatchSM::B4;
-    constexpr Pin DaisyPatchSM::B5;
-    constexpr Pin DaisyPatchSM::B6;
-    constexpr Pin DaisyPatchSM::B7;
-    constexpr Pin DaisyPatchSM::B8;
-    constexpr Pin DaisyPatchSM::B9;
-    constexpr Pin DaisyPatchSM::B10;
+    constexpr Pin EurorackDevHat::B1;
+    constexpr Pin EurorackDevHat::B2;
+    constexpr Pin EurorackDevHat::B3;
+    constexpr Pin EurorackDevHat::B4;
+    constexpr Pin EurorackDevHat::B5;
+    constexpr Pin EurorackDevHat::B6;
+    constexpr Pin EurorackDevHat::B7;
+    constexpr Pin EurorackDevHat::B8;
+    constexpr Pin EurorackDevHat::B9;
+    constexpr Pin EurorackDevHat::B10;
 
-    constexpr Pin DaisyPatchSM::C1;
-    constexpr Pin DaisyPatchSM::C2;
-    constexpr Pin DaisyPatchSM::C3;
-    constexpr Pin DaisyPatchSM::C4;
-    constexpr Pin DaisyPatchSM::C5;
-    constexpr Pin DaisyPatchSM::C6;
-    constexpr Pin DaisyPatchSM::C7;
-    constexpr Pin DaisyPatchSM::C8;
-    constexpr Pin DaisyPatchSM::C9;
-    constexpr Pin DaisyPatchSM::C10;
+    constexpr Pin EurorackDevHat::C1;
+    constexpr Pin EurorackDevHat::C2;
+    constexpr Pin EurorackDevHat::C3;
+    constexpr Pin EurorackDevHat::C4;
+    constexpr Pin EurorackDevHat::C5;
+    constexpr Pin EurorackDevHat::C6;
+    constexpr Pin EurorackDevHat::C7;
+    constexpr Pin EurorackDevHat::C8;
+    constexpr Pin EurorackDevHat::C9;
+    constexpr Pin EurorackDevHat::C10;
 
-    constexpr Pin DaisyPatchSM::D1;
-    constexpr Pin DaisyPatchSM::D2;
-    constexpr Pin DaisyPatchSM::D3;
-    constexpr Pin DaisyPatchSM::D4;
-    constexpr Pin DaisyPatchSM::D5;
-    constexpr Pin DaisyPatchSM::D6;
-    constexpr Pin DaisyPatchSM::D7;
-    constexpr Pin DaisyPatchSM::D8;
-    constexpr Pin DaisyPatchSM::D9;
-    constexpr Pin DaisyPatchSM::D10;
+    constexpr Pin EurorackDevHat::D1;
+    constexpr Pin EurorackDevHat::D2;
+    constexpr Pin EurorackDevHat::D3;
+    constexpr Pin EurorackDevHat::D4;
+    constexpr Pin EurorackDevHat::D5;
+    constexpr Pin EurorackDevHat::D6;
+    constexpr Pin EurorackDevHat::D7;
+    constexpr Pin EurorackDevHat::D8;
+    constexpr Pin EurorackDevHat::D9;
+    constexpr Pin EurorackDevHat::D10;
 
     /** outside of class static buffer(s) for DMA access */
     uint16_t DMA_BUFFER_MEM_SECTION dsy_patch_sm_dac_buffer[2][48];
 
-    class DaisyPatchSM::Impl
+    class EurorackDevHat::Impl
     {
       public:
         Impl()
@@ -170,11 +170,11 @@ namespace patch_sm
     };
 
     /** Static Local Object */
-    static DaisyPatchSM::Impl patch_sm_hw;
+    static EurorackDevHat::Impl patch_sm_hw;
 
     /** Impl function definintions */
 
-    void DaisyPatchSM::Impl::InitDac()
+    void EurorackDevHat::Impl::InitDac()
     {
         DacHandle::Config dac_config;
         dac_config.mode     = DacHandle::Mode::DMA;
@@ -186,7 +186,7 @@ namespace patch_sm
         dac_.Init(dac_config);
     }
 
-    void DaisyPatchSM::Impl::StartDac(DacHandle::DacCallback callback)
+    void EurorackDevHat::Impl::StartDac(DacHandle::DacCallback callback)
     {
         if(dac_running_)
             dac_.Stop();
@@ -197,14 +197,14 @@ namespace patch_sm
         dac_running_ = true;
     }
 
-    void DaisyPatchSM::Impl::StopDac()
+    void EurorackDevHat::Impl::StopDac()
     {
         dac_.Stop();
         dac_running_ = false;
     }
 
 
-    void DaisyPatchSM::Impl::InternalDacCallback(uint16_t **output, size_t size)
+    void EurorackDevHat::Impl::InternalDacCallback(uint16_t **output, size_t size)
     {
         /** We could add some smoothing, interp, or something to make this a bit less waste-y */
         // std::fill(&output[0][0], &output[0][size], patch_sm_hw.dac_output_[0]);
@@ -216,12 +216,12 @@ namespace patch_sm
         }
     }
 
-    /** Actual DaisyPatchSM implementation
+    /** Actual EurorackDevHat implementation
  *  With the pimpl model in place, we can/should probably
  *  move the rest of the implementation to the Impl class
  */
 
-    void DaisyPatchSM::Init()
+    void EurorackDevHat::Init()
     {
         /** Assign pimpl pointer */
         pimpl_ = &patch_sm_hw;
@@ -334,7 +334,7 @@ namespace patch_sm
         user_led.pull = DSY_GPIO_NOPULL;
         user_led.pin  = PIN_USER_LED;
         dsy_gpio_init(&user_led);
-        //gate_in_1.Init((dsy_gpio_pin *)&DaisyPatchSM::B10);
+        //gate_in_1.Init((dsy_gpio_pin *)&EurorackDevHat::B10);
         gate_in_1.Init(B10);
         gate_in_2.Init(B9);
 
@@ -356,30 +356,30 @@ namespace patch_sm
         StartDac();
     }
 
-    void DaisyPatchSM::StartAudio(AudioHandle::AudioCallback cb)
+    void EurorackDevHat::StartAudio(AudioHandle::AudioCallback cb)
     {
         audio.Start(cb);
     }
 
-    void DaisyPatchSM::StartAudio(AudioHandle::InterleavingAudioCallback cb)
+    void EurorackDevHat::StartAudio(AudioHandle::InterleavingAudioCallback cb)
     {
         audio.Start(cb);
     }
 
-    void DaisyPatchSM::ChangeAudioCallback(AudioHandle::AudioCallback cb)
+    void EurorackDevHat::ChangeAudioCallback(AudioHandle::AudioCallback cb)
     {
         audio.ChangeCallback(cb);
     }
 
     void
-    DaisyPatchSM::ChangeAudioCallback(AudioHandle::InterleavingAudioCallback cb)
+    EurorackDevHat::ChangeAudioCallback(AudioHandle::InterleavingAudioCallback cb)
     {
         audio.ChangeCallback(cb);
     }
 
-    void DaisyPatchSM::StopAudio() { audio.Stop(); }
+    void EurorackDevHat::StopAudio() { audio.Stop(); }
 
-    void DaisyPatchSM::SetAudioBlockSize(size_t size)
+    void EurorackDevHat::SetAudioBlockSize(size_t size)
     {
         audio.SetBlockSize(size);
         callback_rate_ = AudioSampleRate() / AudioBlockSize();
@@ -389,7 +389,7 @@ namespace patch_sm
         }
     }
 
-    void DaisyPatchSM::SetAudioSampleRate(float sr)
+    void EurorackDevHat::SetAudioSampleRate(float sr)
     {
         SaiHandle::Config::SampleRate sai_sr;
         switch(int(sr))
@@ -418,7 +418,7 @@ namespace patch_sm
     }
 
     void
-    DaisyPatchSM::SetAudioSampleRate(SaiHandle::Config::SampleRate sample_rate)
+    EurorackDevHat::SetAudioSampleRate(SaiHandle::Config::SampleRate sample_rate)
     {
         audio.SetSampleRate(sample_rate);
         callback_rate_ = AudioSampleRate() / AudioBlockSize();
@@ -428,20 +428,20 @@ namespace patch_sm
         }
     }
 
-    size_t DaisyPatchSM::AudioBlockSize()
+    size_t EurorackDevHat::AudioBlockSize()
     {
         return audio.GetConfig().blocksize;
     }
 
-    float DaisyPatchSM::AudioSampleRate() { return audio.GetSampleRate(); }
+    float EurorackDevHat::AudioSampleRate() { return audio.GetSampleRate(); }
 
-    float DaisyPatchSM::AudioCallbackRate() { return callback_rate_; }
+    float EurorackDevHat::AudioCallbackRate() { return callback_rate_; }
 
-    void DaisyPatchSM::StartAdc() { adc.Start(); }
+    void EurorackDevHat::StartAdc() { adc.Start(); }
 
-    void DaisyPatchSM::StopAdc() { adc.Stop(); }
+    void EurorackDevHat::StopAdc() { adc.Stop(); }
 
-    void DaisyPatchSM::ProcessAnalogControls()
+    void EurorackDevHat::ProcessAnalogControls()
     {
         for(int i = 0; i < ADC_LAST; i++)
         {
@@ -449,11 +449,11 @@ namespace patch_sm
         }
     }
 
-    void DaisyPatchSM::ProcessDigitalControls() {}
+    void EurorackDevHat::ProcessDigitalControls() {}
 
-    float DaisyPatchSM::GetAdcValue(int idx) { return controls[idx].Value(); }
+    float EurorackDevHat::GetAdcValue(int idx) { return controls[idx].Value(); }
 
-    dsy_gpio_pin DaisyPatchSM::GetPin(const PinBank bank, const int idx)
+    dsy_gpio_pin EurorackDevHat::GetPin(const PinBank bank, const int idx)
     {
         if(idx <= 0 || idx > 10)
             return DUMMYPIN;
@@ -461,21 +461,21 @@ namespace patch_sm
             return kPinMap[static_cast<int>(bank)][idx - 1];
     }
 
-    void DaisyPatchSM::StartDac(DacHandle::DacCallback callback)
+    void EurorackDevHat::StartDac(DacHandle::DacCallback callback)
     {
         pimpl_->StartDac(callback);
     }
 
-    void DaisyPatchSM::StopDac() { pimpl_->StopDac(); }
+    void EurorackDevHat::StopDac() { pimpl_->StopDac(); }
 
-    void DaisyPatchSM::WriteCvOut(const int channel, float voltage)
+    void EurorackDevHat::WriteCvOut(const int channel, float voltage)
     {
         pimpl_->WriteCvOut(channel, voltage);
     }
 
-    void DaisyPatchSM::SetLed(bool state) { dsy_gpio_write(&user_led, state); }
+    void EurorackDevHat::SetLed(bool state) { dsy_gpio_write(&user_led, state); }
 
-    bool DaisyPatchSM::ValidateSDRAM()
+    bool EurorackDevHat::ValidateSDRAM()
     {
         uint32_t *sdramptr      = (uint32_t *)0xc0000000;
         uint32_t  size_in_words = 16777216;
@@ -510,7 +510,7 @@ namespace patch_sm
         return num_failed == 0;
     }
 
-    bool DaisyPatchSM::ValidateQSPI(bool quick)
+    bool EurorackDevHat::ValidateQSPI(bool quick)
     {
         uint32_t start;
         uint32_t size;
@@ -544,6 +544,6 @@ namespace patch_sm
         return fail_cnt == 0;
     }
 
-} // namespace patch_sm
+} // namespace eurorack_dev_hat
 
 } // namespace daisy

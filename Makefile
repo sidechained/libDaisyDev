@@ -29,6 +29,7 @@ daisy_field \
 daisy_versio \
 daisy_legio \
 daisy_patch_sm \
+eurorack_dev_hat \
 sys/fatfs \
 sys/system \
 dev/sr_595 \

@@ -4,14 +4,14 @@
 
 namespace daisy
 {
-namespace patch_sm
+namespace eurorack_dev_hat
 {
     /** Accessors for the Analog Controls. 
      *  These cover the 8x Bipolar CV inputs
      *  as well as the 4x 0-3V3 ADC inputs on
      *  the hardware 
      * 
-     *  When reading a value with DaisyPatchSM::GetAdcValue()
+     *  When reading a value with EurorackDevHat::GetAdcValue()
      * 
      *  patch.GetAdcValue(patch_sm::CV_1);
      */
@@ -41,7 +41,7 @@ namespace patch_sm
     };
 
 
-    /** @brief Board support file for DaisyPatchSM hardware
+    /** @brief Board support file for EurorackDevHat hardware
      *  @author shensley
      *  @ingroup boards
      * 
@@ -49,7 +49,7 @@ namespace patch_sm
      *  Based on the Daisy Seed, with circuits added for 
      *  interfacing directly with eurorack modular synthesizers.
      */
-    class DaisyPatchSM
+    class EurorackDevHat
     {
       public:
         /** Helper for mapping pins, and accessing them using the `GetPin` function */
@@ -61,8 +61,8 @@ namespace patch_sm
             D
         };
 
-        DaisyPatchSM() {}
-        ~DaisyPatchSM() {}
+        EurorackDevHat() {}
+        ~EurorackDevHat() {}
 
         /** Initializes the memories, and core peripherals for the Daisy Patch SM */
         void Init();
@@ -257,7 +257,7 @@ namespace patch_sm
         dsy_gpio      gate_out_1, gate_out_2;
 
 
-        /** Pin Accessors for the DaisyPatchSM hardware
+        /** Pin Accessors for the EurorackDevHat hardware
          *  Used for initializing various GPIO, etc. 
          */
         constexpr static Pin A1  = Pin(PORTX, 0); /**< A1  - -12V Power Input */
@@ -297,7 +297,7 @@ namespace patch_sm
         constexpr static Pin D2  = Pin(PORTC, 9); /**< D2  - SDMMC D3 */
         constexpr static Pin D3  = Pin(PORTC, 8); /**< D3  - SDMMC D2*/
         constexpr static Pin D4  = Pin(PORTB, 13);  /**< D4  - SDMMC D1*/
-        constexpr static Pin D5  = Pin(PORTC, 12);  /**< D5  - SDMMC D0 */
+        constexpr static Pin D5  = Pin(PORTB, 12);  /**< D5  - SDMMC D0 */
         constexpr static Pin D6  = Pin(PORTC, 5); /**< D6  - SDMMC CK */
         constexpr static Pin D7  = Pin(PORTB, 0);  /**< D7  - SDMMC CMD */
         constexpr static Pin D8  = Pin(PORTC, 2);  /**< D8  - SPI2 MISO */
@@ -313,6 +313,6 @@ namespace patch_sm
         /** Background callback for updating the DACs. */
         Impl* pimpl_;
     };
-} // namespace patch_sm
+} // namespace eurorack_dev_hat
 
 } // namespace daisy
