@@ -242,27 +242,27 @@ namespace eurorack_dev_hat
         system.Init(syscfg);
         /** Memories */
         // When using the bootloader priori to v6, SDRAM has been already configured
-        // if(boot_version != System::BootInfo::Version::LT_v6_0
-        //    || (boot_version == System::BootInfo::Version::LT_v6_0
-        //        && memory == System::MemoryRegion::INTERNAL_FLASH))
-        // {
-        //     /** FMC SDRAM */
-        //     sdram.Init();
-        // }
-        // if(memory != System::MemoryRegion::QSPI)
-        // {
-        //     /** QUADSPI FLASH */
-        //     QSPIHandle::Config qspi_config;
-        //     qspi_config.device = QSPIHandle::Config::Device::IS25LP064A;
-        //     qspi_config.mode   = QSPIHandle::Config::Mode::MEMORY_MAPPED;
-        //     qspi_config.pin_config.io0 = Pin(PORTF, 8);
-        //     qspi_config.pin_config.io1 = Pin(PORTF, 9);
-        //     qspi_config.pin_config.io2 = Pin(PORTF, 7);
-        //     qspi_config.pin_config.io3 = Pin(PORTF, 6);
-        //     qspi_config.pin_config.clk = Pin(PORTF, 10);
-        //     qspi_config.pin_config.ncs = Pin(PORTG, 6);
-        //     qspi.Init(qspi_config);
-        // }
+        if(boot_version != System::BootInfo::Version::LT_v6_0
+           || (boot_version == System::BootInfo::Version::LT_v6_0
+               && memory == System::MemoryRegion::INTERNAL_FLASH))
+        {
+            /** FMC SDRAM */
+            sdram.Init();
+        }
+        if(memory != System::MemoryRegion::QSPI)
+        {
+            /** QUADSPI FLASH **/
+            QSPIHandle::Config qspi_config;
+            qspi_config.device = QSPIHandle::Config::Device::IS25LP064A;
+            qspi_config.mode   = QSPIHandle::Config::Mode::MEMORY_MAPPED;
+            qspi_config.pin_config.io0 = Pin(PORTE, 7);
+            qspi_config.pin_config.io1 = Pin(PORTE, 8);
+            qspi_config.pin_config.io2 = Pin(PORTE, 9);
+            qspi_config.pin_config.io3 = Pin(PORTE, 10);
+            qspi_config.pin_config.clk = Pin(PORTB, 2);
+            qspi_config.pin_config.ncs = Pin(PORTC, 11);
+            qspi.Init(qspi_config);
+        }
         /** Audio */
         // Audio Init
         SaiHandle::Config sai_config;
@@ -273,11 +273,11 @@ namespace eurorack_dev_hat
         sai_config.b_sync          = SaiHandle::Config::Sync::SLAVE;
         sai_config.a_dir           = SaiHandle::Config::Direction::RECEIVE;
         sai_config.b_dir           = SaiHandle::Config::Direction::TRANSMIT;
-        sai_config.pin_config.fs   = Pin(PORTD, 4);
-        sai_config.pin_config.mclk = Pin(PORTD, 15);
-        sai_config.pin_config.sck  = Pin(PORTD, 0);
-        sai_config.pin_config.sa   = Pin(PORTD, 1);
-        sai_config.pin_config.sb   = Pin(PORTD, 9);
+        sai_config.pin_config.fs   = Pin(PORTE, 4);
+        sai_config.pin_config.mclk = Pin(PORTE, 2);
+        sai_config.pin_config.sck  = Pin(PORTE, 5);
+        sai_config.pin_config.sa   = Pin(PORTE, 6);
+        sai_config.pin_config.sb   = Pin(PORTE, 3);
         SaiHandle sai_1_handle;
         sai_1_handle.Init(sai_config);
         I2CHandle::Config i2c_cfg;
@@ -510,39 +510,103 @@ namespace eurorack_dev_hat
     //     return num_failed == 0;
     // }
 
-    // bool EurorackDevHat::ValidateQSPI(bool quick)
-    // {
-    //     uint32_t start;
-    //     uint32_t size;
-    //     if(quick)
-    //     {
-    //         start = 0x400000;
-    //         size  = 0x4000;
-    //     }
-    //     else
-    //     {
-    //         start = 0;
-    //         size  = 0x800000;
-    //     }
-    //     // Erase the section to be tested
-    //     qspi.Erase(start, start + size);
-    //     // Create some test data
-    //     std::vector<uint8_t> test;
-    //     test.resize(size);
-    //     uint8_t *testmem = test.data();
-    //     for(size_t i = 0; i < size; i++)
-    //         testmem[i] = (uint8_t)(i & 0xff);
-    //     // Write the test data to the device
-    //     qspi.Write(start, size, testmem);
-    //     // Read it all back and count any/all errors
-    //     // I supppose any byte where ((data & 0xff) == data)
-    //     // would be able to false-pass..
-    //     size_t fail_cnt = 0;
-    //     for(size_t i = 0; i < size; i++)
-    //         if(testmem[i] != (uint8_t)(i & 0xff))
-    //             fail_cnt++;
-    //     return fail_cnt == 0;
-    // }
+    bool EurorackDevHat::ValidateQSPI(bool quick)
+    {
+        uint32_t start;
+        uint32_t size;
+        if(quick)
+        {
+            start = 0x400000;
+            size  = 0x4000;
+        }
+        else
+        {
+            start = 0;
+            size  = 0x800000;
+        }
+        // Erase the section to be tested
+        qspi.Erase(start, start + size);
+        // Create some test data
+        std::vector<uint8_t> test;
+        test.resize(si    bool EurorackDevHat::ValidateQSPI(bool quick)
+    {
+        uint32_t start;
+        uint32_t size;
+        if(quick)
+        {
+            start = 0x400000;
+            size  = 0x4000;
+        }
+        else
+        {
+            start = 0;
+            size  = 0x800000;
+        }
+        // Erase the section to be tested
+        qspi.Erase(start, start + size);
+        // Create some test data
+        std::vector<ui    bool EurorackDevHat::ValidateQSPI(bool quick)
+    {
+        uint32_t start;
+        uint32_t size;
+        if(quick)
+        {
+            start = 0x400000;
+            size  = 0x4000;
+        }
+        else
+        {
+            start = 0;
+            size  = 0x800000;
+        }
+        // Erase the section to be tested
+        qspi.Erase(start, start + size);
+        // Create some test data
+        std::vector<uint8_t> test;
+        test.resize(size);
+        uint8_t *testmem = test.data();
+        for(size_t i = 0; i < size; i++)
+            testmem[i] = (uint8_t)(i & 0xff);
+        // Write the test data to the device
+        qspi.Write(start, size, testmem);
+        // Read it all back and count any/all errors
+        // I supppose any byte where ((data & 0xff) == data)
+        // would be able to false-pass..
+        size_t fail_cnt = 0;
+        for(size_t i = 0; i < size; i++)
+            if(testmem[i] != (uint8_t)(i & 0xff))
+                fail_cnt++;
+        return fail_cnt == 0;
+    }nt8_t> test;
+        test.resize(size);
+        uint8_t *testmem = test.data();
+        for(size_t i = 0; i < size; i++)
+            testmem[i] = (uint8_t)(i & 0xff);
+        // Write the test data to the device
+        qspi.Write(start, size, testmem);
+        // Read it all back and count any/all errors
+        // I supppose any byte where ((data & 0xff) == data)
+        // would be able to false-pass..
+        size_t fail_cnt = 0;
+        for(size_t i = 0; i < size; i++)
+            if(testmem[i] != (uint8_t)(i & 0xff))
+                fail_cnt++;
+        return fail_cnt == 0;
+    }ze);
+        uint8_t *testmem = test.data();
+        for(size_t i = 0; i < size; i++)
+            testmem[i] = (uint8_t)(i & 0xff);
+        // Write the test data to the device
+        qspi.Write(start, size, testmem);
+        // Read it all back and count any/all errors
+        // I supppose any byte where ((data & 0xff) == data)
+        // would be able to false-pass..
+        size_t fail_cnt = 0;
+        for(size_t i = 0; i < size; i++)
+            if(testmem[i] != (uint8_t)(i & 0xff))
+                fail_cnt++;
+        return fail_cnt == 0;
+    }
 
 } // namespace eurorack_dev_hat
 

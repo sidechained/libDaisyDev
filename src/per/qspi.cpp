@@ -146,7 +146,7 @@ QSPIHandle::Result QSPIHandle::Impl::Init(const QSPIHandle::Config& config)
     halqspi_.Init.SampleShifting     = QSPI_SAMPLE_SHIFTING_NONE;
     halqspi_.Init.FlashSize          = POSITION_VAL(flash_size) - 1;
     halqspi_.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_2_CYCLE;
-    halqspi_.Init.FlashID            = QSPI_FLASH_ID_1;
+    halqspi_.Init.FlashID            = QSPI_FLASH_ID_2; // BANK 2: was previously QSPI_FLASH_ID_1 
     halqspi_.Init.DualFlash          = QSPI_DUALFLASH_DISABLE;
 
     if(HAL_QSPI_Init(&halqspi_) != HAL_OK)
