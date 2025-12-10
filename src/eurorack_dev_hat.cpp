@@ -19,7 +19,7 @@ namespace eurorack_dev_hat
     constexpr Pin PIN_ADC_CTRL_10 = EurorackDevHat::A3;
     constexpr Pin PIN_ADC_CTRL_11 = EurorackDevHat::D9;
     constexpr Pin PIN_ADC_CTRL_12 = EurorackDevHat::D8;
-    // constexpr Pin PIN_USER_LED    = Pin(PORTC, 7);
+    constexpr Pin PIN_USER_LED    = Pin(PORTC, 15);
 
     /** @note This is an adapter for the new Pin mapping system in the class so that
      *  GetPin still works. If GetPin is removed (i.e. the next major version), this should also be removed 
@@ -284,8 +284,8 @@ namespace eurorack_dev_hat
         i2c_cfg.periph         = I2CHandle::Config::Peripheral::I2C_2;
         i2c_cfg.mode           = I2CHandle::Config::Mode::I2C_MASTER;
         i2c_cfg.speed          = I2CHandle::Config::Speed::I2C_400KHZ;
-        i2c_cfg.pin_config.scl = Pin(PORTD, 12);
-        i2c_cfg.pin_config.sda = Pin(PORTB, 7);
+        i2c_cfg.pin_config.scl = Pin(PORTB, 10);
+        i2c_cfg.pin_config.sda = Pin(PORTB, 11);
         I2CHandle i2c2;
         i2c2.Init(i2c_cfg);
         codec.Init(i2c2);
@@ -330,11 +330,11 @@ namespace eurorack_dev_hat
         }
 
         /** Fixed-function Digital I/O */
-        // user_led.mode = DSY_GPIO_MODE_OUTPUT_PP;
-        // user_led.pull = DSY_GPIO_NOPULL;
-        // user_led.pin  = PIN_USER_LED;
-        // dsy_gpio_init(&user_led);
-        //gate_in_1.Init((dsy_gpio_pin *)&EurorackDevHat::B10);
+        user_led.mode = DSY_GPIO_MODE_OUTPUT_PP;
+        user_led.pull = DSY_GPIO_NOPULL;
+        user_led.pin  = PIN_USER_LED;
+        dsy_gpio_init(&user_led);
+        gate_in_1.Init((dsy_gpio_pin *)&EurorackDevHat::B10);
         gate_in_1.Init(B10);
         gate_in_2.Init(B9);
 
