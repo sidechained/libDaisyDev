@@ -107,7 +107,7 @@ C_DEFS ?=
 C_DEFS +=  \
 -DUSE_HAL_DRIVER \
 -DSTM32H750xx \
--DHSE_VALUE=8000000 \
+-DHSE_VALUE=16000000 \
 
 # imported from libdaisy internal makefile
 C_DEFS +=  \

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h> // Added for overriding _write (see top of .cpp)
 #include "daisy.h"
 
 namespace daisy

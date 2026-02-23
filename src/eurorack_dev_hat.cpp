@@ -1,5 +1,16 @@
 #include "eurorack_dev_hat.h"
+#include "stm32h7xx.h" // explicitly for ITM_SendChar
 #include <vector>
+
+// overriding _write to enable printf debugging over SWO
+extern "C" {
+    int _write(int file, char *ptr, int len) {
+        for (int i = 0; i < len; i++) {
+            ITM_SendChar(*ptr++);
+        }
+        return len;
+    }
+}
 
 namespace daisy
 {
@@ -19,7 +30,7 @@ namespace eurorack_dev_hat
     constexpr Pin PIN_ADC_CTRL_10 = EurorackDevHat::A3;
     constexpr Pin PIN_ADC_CTRL_11 = EurorackDevHat::D9;
     constexpr Pin PIN_ADC_CTRL_12 = EurorackDevHat::D8;
-    constexpr Pin PIN_USER_LED    = Pin(PORTC, 15);
+    constexpr Pin PIN_USER_LED    = Pin(PORTB, 14); // updated for DevHat 0.5
 
     /** @note This is an adapter for the new Pin mapping system in the class so that
      *  GetPin still works. If GetPin is removed (i.e. the next major version), this should also be removed 
@@ -528,71 +539,7 @@ namespace eurorack_dev_hat
         qspi.Erase(start, start + size);
         // Create some test data
         std::vector<uint8_t> test;
-        test.resize(si    bool EurorackDevHat::ValidateQSPI(bool quick)
-    {
-        uint32_t start;
-        uint32_t size;
-        if(quick)
-        {
-            start = 0x400000;
-            size  = 0x4000;
-        }
-        else
-        {
-            start = 0;
-            size  = 0x800000;
-        }
-        // Erase the section to be tested
-        qspi.Erase(start, start + size);
-        // Create some test data
-        std::vector<ui    bool EurorackDevHat::ValidateQSPI(bool quick)
-    {
-        uint32_t start;
-        uint32_t size;
-        if(quick)
-        {
-            start = 0x400000;
-            size  = 0x4000;
-        }
-        else
-        {
-            start = 0;
-            size  = 0x800000;
-        }
-        // Erase the section to be tested
-        qspi.Erase(start, start + size);
-        // Create some test data
-        std::vector<uint8_t> test;
         test.resize(size);
-        uint8_t *testmem = test.data();
-        for(size_t i = 0; i < size; i++)
-            testmem[i] = (uint8_t)(i & 0xff);
-        // Write the test data to the device
-        qspi.Write(start, size, testmem);
-        // Read it all back and count any/all errors
-        // I supppose any byte where ((data & 0xff) == data)
-        // would be able to false-pass..
-        size_t fail_cnt = 0;
-        for(size_t i = 0; i < size; i++)
-            if(testmem[i] != (uint8_t)(i & 0xff))
-                fail_cnt++;
-        return fail_cnt == 0;
-    }nt8_t> test;
-        test.resize(size);
-        uint8_t *testmem = test.data();
-        for(size_t i = 0; i < size; i++)
-            testmem[i] = (uint8_t)(i & 0xff);
-        // Write the test data to the device
-        qspi.Write(start, size, testmem);
-        // Read it all back and count any/all errors
-        // I supppose any byte where ((data & 0xff) == data)
-        // would be able to false-pass..
-        size_t fail_cnt = 0;
-        for(size_t i = 0; i < size; i++)
-            if(testmem[i] != (uint8_t)(i & 0xff))
-                fail_cnt++;
-        return fail_cnt == 0;
-    }ze);
         uint8_t *testmem = test.data();
         for(size_t i = 0; i < size; i++)
             testmem[i] = (uint8_t)(i & 0xff);
