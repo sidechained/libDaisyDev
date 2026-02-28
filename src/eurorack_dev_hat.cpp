@@ -2,16 +2,6 @@
 #include "stm32h7xx.h" // explicitly for ITM_SendChar
 #include <vector>
 
-// overriding _write to enable printf debugging over SWO
-extern "C" {
-    int _write(int file, char *ptr, int len) {
-        for (int i = 0; i < len; i++) {
-            ITM_SendChar(*ptr++);
-        }
-        return len;
-    }
-}
-
 namespace daisy
 {
 namespace eurorack_dev_hat
@@ -260,20 +250,21 @@ namespace eurorack_dev_hat
             /** FMC SDRAM */
             sdram.Init();
         }
-        if(memory != System::MemoryRegion::QSPI)
-        {
-            /** QUADSPI FLASH **/
-            QSPIHandle::Config qspi_config;
-            qspi_config.device = QSPIHandle::Config::Device::IS25LP064A;
-            qspi_config.mode   = QSPIHandle::Config::Mode::MEMORY_MAPPED;
-            qspi_config.pin_config.io0 = Pin(PORTE, 7);
-            qspi_config.pin_config.io1 = Pin(PORTE, 8);
-            qspi_config.pin_config.io2 = Pin(PORTE, 9);
-            qspi_config.pin_config.io3 = Pin(PORTE, 10);
-            qspi_config.pin_config.clk = Pin(PORTB, 2);
-            qspi_config.pin_config.ncs = Pin(PORTC, 11);
-            qspi.Init(qspi_config);
-        }
+            if(memory != System::MemoryRegion::QSPI)
+            {
+                /** QUADSPI FLASH **/
+                QSPIHandle::Config qspi_config;
+                qspi_config.device = QSPIHandle::Config::Device::IS25LP064A;
+//                qspi_config.mode   = QSPIHandle::Config::Mode::MEMORY_MAPPED;
+                qspi_config.mode   = QSPIHandle::Config::Mode::INDIRECT_POLLING;
+                qspi_config.pin_config.io0 = Pin(PORTE, 7);
+                qspi_config.pin_config.io1 = Pin(PORTE, 8);
+                qspi_config.pin_config.io2 = Pin(PORTE, 9);
+                qspi_config.pin_config.io3 = Pin(PORTE, 10);
+                qspi_config.pin_config.clk = Pin(PORTB, 2);
+                qspi_config.pin_config.ncs = Pin(PORTC, 11);
+                qspi.Init(qspi_config);
+            }
         /** Audio */
         // Audio Init
         SaiHandle::Config sai_config;
@@ -367,6 +358,14 @@ namespace eurorack_dev_hat
         StartDac();
     }
 
+    void EurorackDevHat::PrintSWO(const char *message)
+    {
+        while(*message)
+        {
+            ITM_SendChar(*message++);
+        }
+    }
+ 
     void EurorackDevHat::StartAudio(AudioHandle::AudioCallback cb)
     {
         audio.Start(cb);
