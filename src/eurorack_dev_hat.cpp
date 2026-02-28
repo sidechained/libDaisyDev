@@ -282,15 +282,15 @@ namespace eurorack_dev_hat
         sai_config.pin_config.sb   = Pin(PORTE, 3);
         SaiHandle sai_1_handle;
         sai_1_handle.Init(sai_config);
-        I2CHandle::Config i2c_cfg;
-        i2c_cfg.periph         = I2CHandle::Config::Peripheral::I2C_2;
-        i2c_cfg.mode           = I2CHandle::Config::Mode::I2C_MASTER;
-        i2c_cfg.speed          = I2CHandle::Config::Speed::I2C_400KHZ;
-        i2c_cfg.pin_config.scl = Pin(PORTB, 10);
-        i2c_cfg.pin_config.sda = Pin(PORTB, 11);
-        I2CHandle i2c2;
-        i2c2.Init(i2c_cfg);
-        codec.Init(i2c2);
+        I2CHandle::Config i2c_cfg_codec;
+        i2c_cfg_codec.periph         = I2CHandle::Config::Peripheral::I2C_2;
+        i2c_cfg_codec.mode           = I2CHandle::Config::Mode::I2C_MASTER;
+        i2c_cfg_codec.speed          = I2CHandle::Config::Speed::I2C_400KHZ;
+        i2c_cfg_codec.pin_config.scl = Pin(PORTB, 10);
+        i2c_cfg_codec.pin_config.sda = Pin(PORTB, 11);
+        I2CHandle i2c_codec;
+        i2c_codec.Init(i2c_cfg_codec);
+        codec.Init(i2c_codec);
 
         AudioHandle::Config audio_config;
         audio_config.blocksize  = 48;
@@ -349,6 +349,36 @@ namespace eurorack_dev_hat
         gate_out_2.pull = DSY_GPIO_NOPULL;
         gate_out_2.pin  = B6;
         dsy_gpio_init(&gate_out_2);
+
+        // MCP4728 DAC Init (for CV outputs) on I2C4: PD12=SCL, PB7=SDA
+        I2CHandle::Config i2c_cfg;
+        i2c_cfg.periph          = I2CHandle::Config::Peripheral::I2C_4;
+        i2c_cfg.speed           = I2CHandle::Config::Speed::I2C_400KHZ;
+        i2c_cfg.mode            = I2CHandle::Config::Mode::I2C_MASTER;
+        i2c_cfg.pin_config.scl  = {DSY_GPIOD, 12};
+        i2c_cfg.pin_config.sda  = {DSY_GPIOB, 7};
+
+        // 2. Initialize the LibDaisy Handle
+        i2c_mcp4728_.Init(i2c_cfg);
+        System::Delay(10);
+
+        // 3. Fix the AF6 mapping for PB7 (Specific to I2C4 on this pin)
+        // We use the Daisy-defined DSY_GPIOB and Pin 7 constants 
+        GPIO_InitTypeDef gpio;
+        gpio.Pin       = GPIO_PIN_7;
+        gpio.Mode      = GPIO_MODE_AF_OD;
+        gpio.Pull      = GPIO_NOPULL;
+        gpio.Speed     = GPIO_SPEED_FREQ_LOW;
+        gpio.Alternate = GPIO_AF6_I2C4; 
+        //HAL_GPIO_Init(static_cast<GPIO_TypeDef*>(daisy::HardwareLayout::GetGpio(DSY_GPIOB)), &gpio);
+        HAL_GPIO_Init(GPIOB, &gpio);
+
+        // 4. Initialize the Mcp4728 Driver
+        Mcp4728::Config mcp4728_cfg;
+        mcp4728_cfg.address = 0x60; // Standard 7-bit address
+        mcp4728_cfg.i2c     = &i2c_mcp4728_;
+        
+        mcp4728_.Init(mcp4728_cfg);
 
         /** DAC init */
         pimpl_->InitDac();

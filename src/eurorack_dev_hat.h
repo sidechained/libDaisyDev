@@ -53,6 +53,7 @@ namespace eurorack_dev_hat
     class EurorackDevHat
     {
       public:
+
         /** Helper for mapping pins, and accessing them using the `GetPin` function */
         enum class PinBank
         {
@@ -253,6 +254,7 @@ namespace eurorack_dev_hat
         UsbHandle   usb;
         Pcm3060     codec;
         DacHandle   dac;
+        Mcp4728     mcp4728_;
 
         /** Dedicated Function Pins */
         dsy_gpio      user_led;
@@ -314,6 +316,8 @@ namespace eurorack_dev_hat
 
         float callback_rate_;
 
+        I2CHandle i2c_mcp4728_;
+    
         /** Background callback for updating the DACs. */
         Impl* pimpl_;
     };

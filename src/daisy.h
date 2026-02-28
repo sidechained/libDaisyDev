@@ -54,6 +54,7 @@
 #include "dev/neopixel.h"
 #include "dev/neotrellis.h"
 #include "dev/icm20948.h"
+#include "dev/mcp4728.h" // added for EurorackDevHat
 #include "ui/ButtonMonitor.h"
 #include "ui/PotMonitor.h"
 #include "ui/UI.h"
