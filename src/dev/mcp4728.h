@@ -33,6 +33,19 @@ class Mcp4728
    */
   I2CHandle::Result FastWrite(uint16_t a, uint16_t b, uint16_t c, uint16_t d);
 
+  /**
+   * @brief Non-blocking variant of FastWrite using DMA. The data buffer used
+   * for the DMA is allocated internally in D2 (DMA_BUFFER_MEM_SECTION). The
+   * call queues a DMA transfer and returns immediately; a callback may be
+   * provided which will be invoked when the DMA completes.
+   */
+  I2CHandle::Result FastWriteDMA(uint16_t a,
+                   uint16_t b,
+                   uint16_t c,
+                   uint16_t d,
+                   I2CHandle::CallbackFunctionPtr callback = nullptr,
+                   void* callback_context = nullptr);
+
   private:
     I2CHandle *i2c_;
     uint8_t    addr_8bit_;

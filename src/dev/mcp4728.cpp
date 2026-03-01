@@ -52,3 +52,50 @@ I2CHandle::Result Mcp4728::FastWrite(uint16_t a, uint16_t b, uint16_t c, uint16_
     uint8_t swupdate_cmd = 0x08; // MCP4728_GENERAL_SWUPDATE
     return i2c_->TransmitBlocking(0x00, &swupdate_cmd, 1, 10);
 }
+
+// DMA variant: non-blocking transfer using I2C DMA. Uses an internal
+// DMA-friendly buffer allocated in D2 memory.
+I2CHandle::Result Mcp4728::FastWriteDMA(uint16_t a,
+                                        uint16_t b,
+                                        uint16_t c,
+                                        uint16_t d,
+                                        I2CHandle::CallbackFunctionPtr callback,
+                                        void* callback_context)
+{
+    if(!i2c_)
+        return I2CHandle::Result::ERR;
+
+    // DMA buffer must live in D2 memory. Allocate a static buffer with the
+    // project's DMA attribute so it is safe for the HAL DMA engine.
+    static uint8_t DMA_BUFFER_MEM_SECTION dma_buf[8];
+
+    uint16_t vals[4] = {a, b, c, d};
+    for(int i = 0; i < 4; i++)
+    {
+        uint16_t val = vals[i] > 4095 ? 4095 : vals[i];
+        uint8_t low  = (uint8_t)(val & 0xFF);
+        uint8_t high = (uint8_t)((val >> 8) & 0x0F);
+
+        // same packing as FastWrite (high nibble, low byte)
+        dma_buf[i * 2]     = high;
+        dma_buf[i * 2 + 1] = low;
+    }
+
+    // Queue a DMA transfer. TransmitDma will return OK if the job was queued
+    // (it may block briefly if the DMA queue is busy, per I2CHandle contract).
+    auto res = i2c_->TransmitDma(addr_8bit_, dma_buf, 8, callback, callback_context);
+    if(res != I2CHandle::Result::OK)
+    {
+        return res;
+    }
+
+    // Optionally the SWUPDATE general-call may be required to latch buffered
+    // values into outputs. Doing this via DMA would require a separate small
+    // DMA/buffer; instead we perform the SWUPDATE via a blocking transmit
+    // after queueing the DMA. This keeps semantics similar to the blocking
+    // FastWrite path. If you prefer fully non-blocking SWUPDATE, pass a
+    // callback and issue SWUPDATE there.
+    uint8_t swupdate_cmd = 0x08; // MCP4728_GENERAL_SWUPDATE
+    // Blocking transmit of SWUPDATE to general call address
+    return i2c_->TransmitBlocking(0x00, &swupdate_cmd, 1, 10);
+}
