@@ -285,8 +285,8 @@ namespace eurorack_dev_hat
         constexpr static Pin B6  = Pin(PORTC, 13); /**< B6  - GATE OUT 2 */
         constexpr static Pin B7  = Pin(PORTB, 8);  /**< B7  - I2C1 SCL */
         constexpr static Pin B8  = Pin(PORTB, 9);  /**< B8  - I2C1 SDA */
-        constexpr static Pin B9  = Pin(PORTG, 14); /**< B9  - GATE IN 2 */
-        constexpr static Pin B10 = Pin(PORTG, 13); /**< B10 - GATE IN 1 */
+        constexpr static Pin B9  = Pin(PORTC, 7);  /**< B9  - GATE IN 2 */
+        constexpr static Pin B10 = Pin(PORTC, 6);  /**< B10 - GATE IN 1 */
 
         constexpr static Pin C1  = Pin(PORTA, 5); /**< C1  - CV Out 2 */
         constexpr static Pin C2  = Pin(PORTA, 7); /**< C2  - CV In 4 */
