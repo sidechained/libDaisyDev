@@ -8,22 +8,39 @@ void Mcp4728::Init(Config config)
     // I2CHandle expects 7-bit addresses (it performs the left-shift internally),
     // so store the raw 7-bit address here.
     addr_8bit_ = config.address;
+
+    // Specific initialization settings (Volatile only)
+    uint8_t vref = 0;   // 0 = VDD
+    uint8_t pd1  = 0;   // Power-down bit 1
+    uint8_t pd0  = 0;   // Power-down bit 0
+    uint8_t gx   = 0;   // Gain bit (0 = 1x)
+    uint16_t initial_val = 0; 
+
+    for(int ch = 0; ch < 4; ++ch)
+    {
+        uint8_t buf[3];
+        
+        // Byte 1: 0 1 0 0 0 DAC1 DAC0 UDAC
+        // 0x40 is "Write DAC Input Register" (Volatile)
+        buf[0] = 0x40 | (ch << 1); 
+
+        // Byte 2: VREF PD1 PD0 Gx D11 D10 D9 D8
+        buf[1] = (vref << 7) | (pd1 << 6) | (pd0 << 5) | (gx << 4) | ((initial_val >> 8) & 0x0F);
+
+        // Byte 3: D7...D0
+        buf[2] = (uint8_t)(initial_val & 0xFF);
+
+        // No 50ms delay needed for volatile writes
+        i2c_->TransmitBlocking(addr_8bit_, buf, 3, 10);
+    }
 }
 
 // write to all 4 channels in a single I2C transaction using the Fast Write command
-// including VREF=1 (Internal 2.048V), PD=00 (Power down Normal), Gx=0 (Gain 1x) settings for each channel
+// relies on correct initialisation above including VREF=0 (VDD), PD=00 (Power down Normal), Gx=0 (Gain 1x) settings for each channel
 I2CHandle::Result Mcp4728::FastWrite(uint16_t a, uint16_t b, uint16_t c, uint16_t d)
 {
     if(!i2c_)
         return I2CHandle::Result::ERR;
-
-    // Some example code in this repo (EnvelopeExample) uses the 3-byte
-    // Multi-Write command sequence and has been confirmed working on
-    // hardware. If the device ACKs but outputs don't change, it's likely
-    // the Fast Write packet format or VREF bits. To maximize compatibility
-    // with working code, implement the Multi-Write per-channel update here
-    // (3 bytes per channel) which mirrors EnvelopeExample's transmitDacValue
-    // behavior.
 
     uint16_t vals[4] = {a, b, c, d};
     uint8_t data[8];
