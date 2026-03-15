@@ -92,6 +92,14 @@ class Logger
      */
     static void PrintV(const char* format, va_list va);
 
+  /** Print to SWO (ITM) console. Uses internal formatting helpers so callers
+   *  don't have to allocate their own buffers.
+   */
+  static void PrintSWO(const char* format, ...);
+
+  /** Variadic argument variant of PrintSWO() */
+  static void PrintSWOV(const char* format, va_list va);
+
     /** Variadic argument variant of PrintLine()
      */
     static void PrintLineV(const char* format, va_list va);

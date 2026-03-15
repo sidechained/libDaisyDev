@@ -68,9 +68,6 @@ namespace eurorack_dev_hat
 
         /** Initializes the memories, and core peripherals for the Daisy Patch SM */
         void Init();
-
-        /** Prints a message to the SWO console */
-        void PrintSWO(const char *message);
  
         /** Starts a non-interleaving audio callback */
         void StartAudio(AudioHandle::AudioCallback cb);
@@ -210,6 +207,13 @@ namespace eurorack_dev_hat
         static void PrintLine(const char* format, VA... va)
         {
             Log::PrintLine(format, va...);
+        }
+
+        /** Print formatted string to SWO/ITM console */
+        template <typename... VA>
+        static void PrintSWO(const char* format, VA... va)
+        {
+            Log::PrintSWO(format, va...);
         }
 
         /** Start the logging session. Optionally wait for terminal connection before proceeding.

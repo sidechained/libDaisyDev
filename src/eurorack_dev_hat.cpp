@@ -387,14 +387,6 @@ namespace eurorack_dev_hat
         StartAdc();
         StartDac();
     }
-
-    void EurorackDevHat::PrintSWO(const char *message)
-    {
-        while(*message)
-        {
-            ITM_SendChar(*message++);
-        }
-    }
  
     void EurorackDevHat::StartAudio(AudioHandle::AudioCallback cb)
     {

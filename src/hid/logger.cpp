@@ -2,6 +2,7 @@
 #include <cstdarg>
 #include <cstdio>
 #include <cassert>
+#include "stm32h7xx.h" // explicitly for ITM_SendChar
 #include "logger.h"
 #include "sys/system.h"
 
@@ -42,6 +43,36 @@ void Logger<dest>::PrintLineV(const char* format, va_list va)
     AppendNewLine();
 
     TransmitBuf();
+}
+
+template <LoggerDestination dest>
+void Logger<dest>::PrintSWO(const char* format, ...)
+{
+    va_list va;
+    va_start(va, format);
+    PrintSWOV(format, va);
+    va_end(va);
+}
+
+template <LoggerDestination dest>
+void Logger<dest>::PrintSWOV(const char* format, va_list va)
+{
+    /* Format into the existing tx buffer to reuse allocation and formatting
+       logic, but do not call TransmitBuf() as that uses the other
+       transmission backends. Instead, send directly over ITM using
+       ITM_SendChar. */
+    int written = vsnprintf(tx_buff_, sizeof(tx_buff_), format, va);
+    if(written <= 0)
+        return;
+
+    size_t to_send = (size_t)written;
+    if(to_send >= sizeof(tx_buff_))
+        to_send = sizeof(tx_buff_) - 1; /** ensure we don't overflow the tmp buffer */
+
+    for(size_t i = 0; i < to_send; i++)
+    {
+        ITM_SendChar(tx_buff_[i]);
+    }
 }
 
 template <LoggerDestination dest>
